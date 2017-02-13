@@ -1,7 +1,9 @@
 FROM mongo:3.4
 MAINTAINER Tutum Labs <support@tutum.co>
 
-RUN mkdir /backup
+RUN apt-get update && \
+apt-get install cron && \
+mkdir /backup
 
 ENV CRON_TIME="0 0 * * *"
 
