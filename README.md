@@ -1,6 +1,9 @@
 # mongodb-backup
 
 # Changelog
+## 0.1.2 (2020-02-24)
+### Changes
+1. 在 Dockerfile 中指定 `ENV TZ="America/Los_Angeles"`，使得备份文件名字中的时间为本地时间
 
 ## 0.1.1 (2020-02-24)
 ### Changes
