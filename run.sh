@@ -56,15 +56,25 @@ echo "=> Done"
 EOF
 chmod +x /restore.sh
 
-touch /mongo_backup.log
-tail -F /mongo_backup.log &
 
-if [ -n "${INIT_BACKUP}" ]; then
+if [ -n "${RESTORE_ONLY}" ]; then
     echo "=> Create a backup on the startup"
-    /backup.sh
-fi
+    /restore.sh $1
+else
+    touch /mongo_backup.log
+    tail -F /mongo_backup.log &
 
-echo "${CRON_TIME} /backup.sh >> /mongo_backup.log 2>&1" > /crontab.conf
-crontab  /crontab.conf
-echo "=> Running cron job"
-exec cron -f
+    if [ -n "${INIT_BACKUP}" ]; then
+        echo "=> Create a backup on the startup"
+        /backup.sh
+    fi
+
+    if [ "${CRON_TIME}" != "null" ]; then
+        echo "${CRON_TIME} /backup.sh >> /mongo_backup.log 2>&1" > /crontab.conf
+        crontab  /crontab.conf
+        echo "=> Running cron job"
+        exec cron -f
+    else
+        echo "=> Skipping cron job"
+    fi
+fi

@@ -8,4 +8,4 @@ ENV CRON_TIME="0 0 * * *"
 
 ADD run.sh /run.sh
 VOLUME ["/backup"]
-CMD ["/run.sh"]
+ENTRYPOINT ["/run.sh"]
